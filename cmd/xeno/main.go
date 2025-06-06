@@ -1,11 +1,14 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/cvancleave/xeno/internal/xeno"
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
 func main() {
+	fmt.Println("starting xeno")
 
 	x := xeno.NewXeno()
 	x.Start()
