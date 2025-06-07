@@ -2,6 +2,7 @@ package xeno
 
 import (
 	"image/color"
+	"math/rand/v2"
 	"os"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -11,36 +12,33 @@ import (
 )
 
 type button struct {
-	label   string
-	x, y    int
-	width   int
-	height  int
-	onClick func()
-	hovered bool
+	assignedKey ebiten.Key
+	label       string
+	x, y        int
+	width       int
+	height      int
+	onClick     func()
+	hovered     bool
 }
 
 func (x *Xeno) loadButtons() {
 	x.buttons = []*button{
 		{
-			label: "Idle",
+			label: "Change",
 			x:     10, y: 10, width: 80, height: 30,
 			onClick: func() {
-				x.currentState = "idle"
+				nextState := StateNames[rand.IntN(len(StateNames))]
+				x.currentState = nextState
 			},
-		},
-		{
-			label: "Blink",
-			x:     100, y: 10, width: 80, height: 30,
-			onClick: func() {
-				x.currentState = "blink"
-			},
+			assignedKey: ebiten.KeyEnter,
 		},
 		{
 			label: "Exit",
-			x:     190, y: 10, width: 80, height: 30,
+			x:     100, y: 10, width: 80, height: 30,
 			onClick: func() {
 				os.Exit(0)
 			},
+			assignedKey: ebiten.KeyEscape,
 		},
 	}
 }
@@ -50,6 +48,10 @@ func (b *button) Update() {
 	b.hovered = x >= b.x && x <= b.x+b.width && y >= b.y && y <= b.y+b.height
 
 	if b.hovered && ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
+		b.onClick()
+	}
+
+	if ebiten.IsKeyPressed(b.assignedKey) {
 		b.onClick()
 	}
 }

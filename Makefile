@@ -6,6 +6,9 @@ run:
 build: 
 	@GOOS=linux GOARCH=arm64 go build -o xeno_arm ./cmd/xeno
 
+allow:
+	chmod +x ./xeno_arm
+
 build_all:
 	echo "win-x64"
 	@GOOS=windows GOARCH=amd64 go build -o bin/xeno-win-x64.exe ./cmd/xeno
