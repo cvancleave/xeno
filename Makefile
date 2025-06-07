@@ -1,4 +1,4 @@
-.PHONY: run build
+.PHONY: run build allow
 
 run: 
 	@go run cmd/xeno/main.go
